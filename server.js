@@ -25,7 +25,7 @@ app.use(cors()); // en producción restringe origin a tu dominio
 app.use(bodyParser.json());
 
 // ---------- Autenticación Google ----------
-const keyFilePath = process.env.GOOGLE_CREDENTIALS_PATH || path.join(__dirname, "credentials.json");
+const credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS_JSON);
 
 const auth = new google.auth.GoogleAuth({
   keyFile: keyFilePath,
@@ -33,6 +33,11 @@ const auth = new google.auth.GoogleAuth({
 });
 
 const calendar = google.calendar({ version: "v3", auth });
+
+// ✅ Endpoint de prueba
+app.get("/", (req, res) => {
+  res.send("API Tu akarreo Calendar funcionando 🚀");
+});
 
 // ---------- Reglas de duración (horas) ----------
 function duracionPorTipoYVolumen(tipoFlete = "", metrosCubicos = 0) {
