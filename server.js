@@ -28,11 +28,12 @@ app.use(bodyParser.json());
 const credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS_JSON);
 
 const auth = new google.auth.GoogleAuth({
-  keyFile: keyFilePath,
-  scopes: ["https://www.googleapis.com/auth/calendar"]
+  credentials,
+  scopes: ["https://www.googleapis.com/auth/calendar"],
 });
 
 const calendar = google.calendar({ version: "v3", auth });
+
 
 // ✅ Endpoint de prueba
 app.get("/", (req, res) => {
