@@ -25,7 +25,8 @@ app.use(cors()); // en producción restringe origin a tu dominio
 app.use(bodyParser.json());
 
 // ---------- Autenticación Google ----------
-const credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS_JSON);
+import fs from "fs";
+const credentials = JSON.parse(fs.readFileSync("credentials.json", "utf8"));
 
 const auth = new google.auth.GoogleAuth({
   credentials,
