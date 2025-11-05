@@ -299,6 +299,13 @@ app.post("/api/calendar/reserve", async (req, res) => {
   }
 });
 
+// ✅ Si alguien entra por GET (por ejemplo desde el navegador), mostramos un mensaje claro
+app.get("/api/calendar/search", (req, res) => {
+  res.status(405).json({
+    error: "Usa POST en /api/calendar/search con JSON { fecha, ciudadOrigen, tipoFlete, metrosCubicos }"
+  });
+});
+
 // ---------- Iniciar servidor ----------
 const PORT = process.env.PORT || 10000; // Render asignará su puerto mediante env var
 app.listen(PORT, () => console.log(`Tu Akarreo API corriendo en puerto ${PORT}`));
