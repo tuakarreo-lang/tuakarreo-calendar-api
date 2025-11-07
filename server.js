@@ -270,6 +270,37 @@ app.get("/api/calendar/search", (req, res) => {
     error: "Usa POST en /api/calendar/search con JSON { fecha, ciudadOrigen, tipoFlete, metrosCubicos }"
   });
 });
+/* ==========================================================
+   ✅ RUTA POST para búsqueda de disponibilidad
+   ========================================================== */
+app.post("/api/calendar/search", async (req, res) => {
+  try {
+    const { fecha, ciudadOrigen, tipoFlete, metrosCubicos } = req.body;
+
+    if (!fecha || !ciudadOrigen || !tipoFlete || !metrosCubicos) {
+      return res.status(400).json({ ok: false, error: "Faltan parámetros" });
+    }
+
+    console.log("📅 POST /api/calendar/search:", req.body);
+
+    // Aquí puedes usar la misma lógica del GET existente (por ejemplo):
+    const calendarData = await obtenerCalendarioDisponible(
+      fecha,
+      ciudadOrigen,
+      tipoFlete,
+      metrosCubicos
+    );
+
+    if (!calendarData) {
+      return res.status(404).json({ ok: false, error: "Sin disponibilidad" });
+    }
+
+    res.json({ ok: true, calendar: calendarData });
+  } catch (error) {
+    console.error("❌ Error en POST /api/calendar/search:", error);
+    res.status(500).json({ ok: false, error: "Error interno del servidor" });
+  }
+});
 
 // ---------- Servidor ----------
 const PORT = process.env.PORT || 10000;
